@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 
-class App extends Component {
-  render() {
-    return (
-      <div>app</div>
-    )
-  }
+function App(props: any) {
+  return (
+    <div>app</div>
+  )
 }
 
-export default App
+export default connect<any, any, any, any>(
+  function mapStateToProps(state: any) { },
+  function mapDispatchToProps(dispatch: any) { }
+)(App);
