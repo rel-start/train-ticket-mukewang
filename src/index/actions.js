@@ -100,3 +100,45 @@ export function exchangeFromTo() {
     dispatch(setTo(from));
   };
 }
+
+export function fetchCityData() {
+  return (dispatch, getState) => {
+    const { isLoadingCityData } = getState();
+
+    if (isLoadingCityData) {
+      return;
+    }
+    
+    dispatch(setIsLoadingCityData(true));
+
+    // 距上一次请求一分钟内的数据会重 localStorage 中读取
+    const cache = JSON.parse(localStorage.getItem('city_data_cache') || '{}');
+    if (Date.now() < cache.expires) {
+      dispatch(setCityData(cache.data));
+      dispatch(setIsLoadingCityData(false));
+      return;
+    }
+
+    fetch('/rest/cities?_' + Date.now())
+      .then(res => res.json())
+      .then(cityData => {
+        dispatch(setCityData(cityData));
+
+        localStorage.setItem(
+          'city_data_cache',
+          JSON.stringify({
+            // 1分钟数据过期
+            expires: Date.now() + 60 * 1000,
+            data: cityData
+          })
+        );
+
+        dispatch(setIsLoadingCityData(false));
+      })
+      .catch((err) => {
+        // log4
+        console.log(err)
+        dispatch(setIsLoadingCityData(false));
+      });
+  }
+}

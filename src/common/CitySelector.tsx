@@ -2,7 +2,8 @@ import './CitySelector.css';
 import React, {
   useState,
   useMemo,
-  MouseEventHandler
+  useEffect,
+  MouseEventHandler,
 } from 'react';
 import classnames from 'classnames';
 
@@ -11,12 +12,22 @@ export default function CitySelector(props: ICitySelectorProps) {
     show,
     cityData,
     isLoading,
-    onBack
+    onBack,
+    fetchCityData,
   } = props;
 
   // 存储搜索框的文本并过滤掉前后空格
   const [serachKey, setSearchKey] = useState('');
   const key = useMemo(() => serachKey.trim(), [serachKey]);
+
+  // 请求城市列表数据
+  useEffect(() => {
+    if (!show || cityData || isLoading) {
+      return;
+    }
+    fetchCityData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [show, cityData, isLoading]);
 
   return (
     <div
@@ -58,8 +69,9 @@ export default function CitySelector(props: ICitySelectorProps) {
 }
 
 interface ICitySelectorProps {
-  show: boolean
-  cityData: any[]
-  isLoading: boolean
-  onBack: MouseEventHandler
+  show: boolean,
+  cityData: any[],
+  isLoading: boolean,
+  onBack: MouseEventHandler,
+  fetchCityData: any
 }

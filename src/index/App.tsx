@@ -17,6 +17,7 @@ import {
   exchangeFromTo,
   showCitySelector,
   hideCitySelector,
+  fetchCityData,
 } from './actions.js';
 
 function App(props: any) {
@@ -53,6 +54,7 @@ function App(props: any) {
   const CitySelectorCbs = useMemo(() => {
     return bindActionCreators({
       onBack: hideCitySelector,
+      fetchCityData,
     }, dispatch);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
