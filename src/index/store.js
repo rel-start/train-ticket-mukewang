@@ -6,6 +6,7 @@ import {
 
 import reducers from './reducers';
 import thunk from 'redux-thunk';
+import logger from 'redux-logger';
 
 export default createStore(
   combineReducers(reducers),
@@ -21,5 +22,5 @@ export default createStore(
     highSpeed:false,
   },
   // 中间件
-  applyMiddleware(thunk)
+  applyMiddleware(thunk, logger)
 );

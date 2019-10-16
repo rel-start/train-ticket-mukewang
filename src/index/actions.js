@@ -75,6 +75,8 @@ export function setSelectedCity(city) {
     } else {
       dispatch(setTo(city));
     }
+
+    dispatch(hideCitySelector());
   };
 }
 
@@ -111,7 +113,7 @@ export function fetchCityData() {
     
     dispatch(setIsLoadingCityData(true));
 
-    // 距上一次请求一分钟内的数据会重 localStorage 中读取
+    // 距上一次请求一小时内的数据会从 localStorage 中读取
     const cache = JSON.parse(localStorage.getItem('city_data_cache') || '{}');
     if (Date.now() < cache.expires) {
       dispatch(setCityData(cache.data));
@@ -127,8 +129,8 @@ export function fetchCityData() {
         localStorage.setItem(
           'city_data_cache',
           JSON.stringify({
-            // 1分钟数据过期
-            expires: Date.now() + 60 * 1000,
+            // 1小时数据过期
+            expires: Date.now() + 60*60 * 1000,
             data: cityData
           })
         );

@@ -18,6 +18,7 @@ import {
   showCitySelector,
   hideCitySelector,
   fetchCityData,
+  setSelectedCity,
 } from './actions.js';
 
 function App(props: any) {
@@ -42,7 +43,7 @@ function App(props: any) {
     dispatch(showCitySelector(m));
   }, []);*/
 
-  const JourneyCbs = useMemo(() => {
+  const journeyCbs = useMemo(() => {
     return bindActionCreators({
       exchangeFromTo,
       showCitySelector,
@@ -51,10 +52,11 @@ function App(props: any) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const CitySelectorCbs = useMemo(() => {
+  const citySelectorCbs = useMemo(() => {
     return bindActionCreators({
       onBack: hideCitySelector,
       fetchCityData,
+      onSelect: setSelectedCity,
     }, dispatch);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -71,7 +73,7 @@ function App(props: any) {
           to={to}
           /*exchangeFromTo={doExchangeFromTo}
           showCitySelector={doShowCitySelector}*/
-          {...JourneyCbs}
+          {...journeyCbs}
         />
         <DepartDate />
         <HighSpeed />
@@ -81,7 +83,7 @@ function App(props: any) {
         show={isCitySelectorVisible}
         cityData={cityData}
         isLoading={isLoadingCityData}
-        {...CitySelectorCbs}
+        {...citySelectorCbs}
       />
     </>
   )
