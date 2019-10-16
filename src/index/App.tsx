@@ -13,6 +13,7 @@ import Journey from './Journey';
 import Submit from './Submit';
 import CitySelector from '../common/CitySelector';
 import DateSelector from '../common/DateSelector';
+import { h0 } from '../common/fp';
 
 import {
   exchangeFromTo,
@@ -22,6 +23,8 @@ import {
   setSelectedCity,
   showDateSelector,
   hideDateSelector,
+  setDepartDate,
+  toggleHighSpeed,
 } from './actions.js';
 
 function App(props: any) {
@@ -34,6 +37,7 @@ function App(props: any) {
     isLoadingCityData,
     departDate,
     isDateSelectorVisible,
+    highSpeed,
   } = props;
 
   const onBack = useCallback(() => {
@@ -69,7 +73,7 @@ function App(props: any) {
 
   const departDateCbx = useMemo(() => {
     return bindActionCreators({
-      onClick: showDateSelector
+      onClick: showDateSelector,
     }, dispatch);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -77,11 +81,23 @@ function App(props: any) {
 
   const dateSelectorCbx = useMemo(() => {
     return bindActionCreators({
-      onBack: hideDateSelector
+      onBack: hideDateSelector,
     }, dispatch);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[]);
+  }, []);
+  const onSelectDate = useCallback((day) => {
+    if (!day || day < h0()) { return; }
+
+    dispatch(setDepartDate(day));
+    dispatch(hideDateSelector());
+  }, []);
+
+  const highSpeedCbs = useMemo(() => {
+    return bindActionCreators({
+      toggle: toggleHighSpeed
+    }, dispatch);
+  }, []);
 
   return (
     <>
@@ -96,8 +112,8 @@ function App(props: any) {
           showCitySelector={doShowCitySelector}*/
           {...journeyCbs}
         />
-        <DepartDate /*当前departDate为undefined*/time={departDate} {...departDateCbx} />
-        <HighSpeed />
+        <DepartDate /*当前departDate为undefined*/ time={departDate} {...departDateCbx} />
+        <HighSpeed {...highSpeedCbs} highSpeed={highSpeed} />
         <Submit />
       </form>
       <CitySelector
@@ -109,6 +125,7 @@ function App(props: any) {
       <DateSelector
         show={isDateSelectorVisible}
         {...dateSelectorCbx}
+        onSelect={onSelectDate}
       />
     </>
   )
