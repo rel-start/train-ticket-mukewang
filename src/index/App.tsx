@@ -91,12 +91,14 @@ function App(props: any) {
 
     dispatch(setDepartDate(day));
     dispatch(hideDateSelector());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const highSpeedCbs = useMemo(() => {
     return bindActionCreators({
       toggle: toggleHighSpeed
     }, dispatch);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -104,7 +106,7 @@ function App(props: any) {
       <div className="header-wrapper">
         <Header title="火车票" onBack={onBack} />
       </div>
-      <form className="form">
+      <form action="query.html" className="form">
         <Journey
           from={from}
           to={to}
