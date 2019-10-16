@@ -6,5 +6,5 @@ export function h0(timestamp = Date.now()) {
   target.setSeconds(0);
   target.setMinutes(0);
 
-  return target;
+  return target.getTime();
 }

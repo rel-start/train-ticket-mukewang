@@ -1,7 +1,7 @@
 import './App.css';
 import React, {
   useCallback,
-  useMemo
+  useMemo,
 } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -19,6 +19,7 @@ import {
   hideCitySelector,
   fetchCityData,
   setSelectedCity,
+  showDateSelector,
 } from './actions.js';
 
 function App(props: any) {
@@ -28,7 +29,8 @@ function App(props: any) {
     dispatch,
     isCitySelectorVisible,
     cityData,
-    isLoadingCityData
+    isLoadingCityData,
+    departDate,
   } = props;
 
   const onBack = useCallback(() => {
@@ -62,6 +64,14 @@ function App(props: any) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const departDateCbx = useMemo(() => {
+    return bindActionCreators({
+      onClick: showDateSelector
+    }, dispatch);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <>
       <div className="header-wrapper">
@@ -75,7 +85,7 @@ function App(props: any) {
           showCitySelector={doShowCitySelector}*/
           {...journeyCbs}
         />
-        <DepartDate />
+        <DepartDate time={departDate} {...departDateCbx} />
         <HighSpeed />
         <Submit />
       </form>
