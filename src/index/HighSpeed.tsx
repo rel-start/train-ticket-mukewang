@@ -2,7 +2,7 @@ import React from 'react';
 import './HighSpeed.css';
 import classnames from 'classnames';
 
-export default function HighSpeed(props: any) {
+export default function HighSpeed(props: IHighSpeedProps) {
   const {
     highSpeed,
     toggle,
@@ -12,7 +12,7 @@ export default function HighSpeed(props: any) {
     <div className="high-speed">
       <div className="high-speed-label">只看高铁/动车</div>
       <div className="high-speed-switch" onClick={() => toggle()}>
-        <input type="hidden" name="highSpeed" value={highSpeed} />
+        <input type="hidden" name="highSpeed" value={String(highSpeed)} />
         <div
           className={classnames('high-speed-track', {
             checked: highSpeed,
@@ -27,4 +27,9 @@ export default function HighSpeed(props: any) {
       </div>
     </div>
   );
+}
+
+interface IHighSpeedProps {
+  toggle: Function,
+  highSpeed: boolean,
 }
