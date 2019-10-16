@@ -12,6 +12,7 @@ import HighSpeed from './HighSpeed';
 import Journey from './Journey';
 import Submit from './Submit';
 import CitySelector from '../common/CitySelector';
+import DateSelector from '../common/DateSelector';
 
 import {
   exchangeFromTo,
@@ -20,6 +21,7 @@ import {
   fetchCityData,
   setSelectedCity,
   showDateSelector,
+  hideDateSelector,
 } from './actions.js';
 
 function App(props: any) {
@@ -31,6 +33,7 @@ function App(props: any) {
     cityData,
     isLoadingCityData,
     departDate,
+    isDateSelectorVisible,
   } = props;
 
   const onBack = useCallback(() => {
@@ -72,6 +75,14 @@ function App(props: any) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const dateSelectorCbx = useMemo(() => {
+    return bindActionCreators({
+      onBack: hideDateSelector
+    }, dispatch);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[]);
+
   return (
     <>
       <div className="header-wrapper">
@@ -85,7 +96,7 @@ function App(props: any) {
           showCitySelector={doShowCitySelector}*/
           {...journeyCbs}
         />
-        <DepartDate time={departDate} {...departDateCbx} />
+        <DepartDate /*当前departDate为undefined*/time={departDate} {...departDateCbx} />
         <HighSpeed />
         <Submit />
       </form>
@@ -94,6 +105,10 @@ function App(props: any) {
         cityData={cityData}
         isLoading={isLoadingCityData}
         {...citySelectorCbs}
+      />
+      <DateSelector
+        show={isDateSelectorVisible}
+        {...dateSelectorCbx}
       />
     </>
   )
