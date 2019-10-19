@@ -49,6 +49,7 @@ function App(props: any) {
     departTimeEnd,
     arriveTimeStart,
     arriveTimeEnd,
+    trainList,
   } = props;
 
   const onBack = useCallback(() => {
@@ -140,7 +141,7 @@ function App(props: any) {
                 prev={prev}
                 next={next}
               />
-              <List />
+              <List list={trainList} />
               <Bottom />
             </>)
           : null
