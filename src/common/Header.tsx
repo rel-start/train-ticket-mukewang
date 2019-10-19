@@ -1,9 +1,10 @@
 import React, {
-  MouseEventHandler
+  MouseEventHandler,
+  memo,
 } from 'react';
 import './Header.css';
 
-export default function Header(props: IHeaderProps) {
+export default memo(function Header(props: IHeaderProps) {
   const {
     onBack,
     title
@@ -24,7 +25,7 @@ export default function Header(props: IHeaderProps) {
       <div className="header-title">{title}</div>
     </div>
   );
-}
+});
 
 interface IHeaderProps {
   onBack: MouseEventHandler,

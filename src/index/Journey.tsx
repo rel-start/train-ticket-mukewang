@@ -1,8 +1,8 @@
 import './Journey.css';
 import journeySwitch from './imgs/switch.svg';
-import React from 'react';
+import React, {memo} from 'react';
 
-export default function Journey(props: any) {
+export default memo(function Journey(props: IJourneyProps) {
   const {
     from,
     to,
@@ -35,4 +35,11 @@ export default function Journey(props: any) {
       </div>
     </div >
   );
+});
+
+interface IJourneyProps {
+  from: string,
+  to: string,
+  exchangeFromTo: Function,
+  showCitySelector: Function,
 }

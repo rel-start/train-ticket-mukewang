@@ -198,7 +198,7 @@ interface ICityListProps {
 }
 
 // -------
-export default function CitySelector(props: ICitySelectorProps) {
+export default memo(function CitySelector(props: ICitySelectorProps) {
   const {
     show,
     cityData,
@@ -287,7 +287,7 @@ export default function CitySelector(props: ICitySelectorProps) {
       {outputCitySections()}
     </div>
   );
-}
+});
 
 interface ICitySelectorProps {
   show: boolean,

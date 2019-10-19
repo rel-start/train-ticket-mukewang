@@ -1,5 +1,7 @@
 import './DateSelector.css';
-import React from 'react';
+import React, {
+  memo,
+} from 'react';
 import classnames from 'classnames';
 
 import Header from './Header';
@@ -40,7 +42,7 @@ interface IDayProps {
 }
 
 // -------
-function Week(props: IWeekProps) {
+const Week = memo(function Week(props: IWeekProps) {
   const {
     days,
     onSelect,
@@ -55,7 +57,7 @@ function Week(props: IWeekProps) {
       }
     </tr>
   );
-}
+});
 
 interface IWeekProps {
   days: number[],
@@ -63,7 +65,7 @@ interface IWeekProps {
 }
 
 // -------
-function Month(props: IMonthProps) {
+const Month = memo(function Month(props: IMonthProps) {
   const {
     startingTimeInMonth,
     onSelect,
@@ -122,7 +124,8 @@ function Month(props: IMonthProps) {
       </tbody>
     </table>
   );
-}
+});
+
 interface IMonthProps {
   startingTimeInMonth: number,
   onSelect: Function

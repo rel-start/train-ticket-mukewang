@@ -106,8 +106,8 @@ export function exchangeFromTo() {
 
 export function setDepartDate(departDate) {
   return {
-      type: ACTION_SET_DEPART_DATE,
-      payload: departDate,
+    type: ACTION_SET_DEPART_DATE,
+    payload: departDate,
   };
 }
 
@@ -118,7 +118,7 @@ export function fetchCityData() {
     if (isLoadingCityData) {
       return;
     }
-    
+
     dispatch(setIsLoadingCityData(true));
 
     // 距上一次请求一小时内的数据会从 localStorage 中读取

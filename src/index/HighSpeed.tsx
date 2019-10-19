@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { memo } from 'react';
 import './HighSpeed.css';
 import classnames from 'classnames';
 
-export default function HighSpeed(props: IHighSpeedProps) {
+export default memo(function HighSpeed(props: IHighSpeedProps) {
   const {
     highSpeed,
     toggle,
@@ -27,7 +27,7 @@ export default function HighSpeed(props: IHighSpeedProps) {
       </div>
     </div>
   );
-}
+});
 
 interface IHighSpeedProps {
   toggle: Function,

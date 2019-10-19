@@ -1,14 +1,24 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import Nav from '../common/Nav';
+import List from './List';
+import Bottom from './Bottom';
 
 function App(props: any) {
   return (
-    <div>app</div>
+    <>
+      <Nav />
+      <List />
+    </>
   )
 }
 
-export default connect<any, any, any, any>(
-  function mapStateToProps(state: any) { return {}},
-  function mapDispatchToProps(dispatch: any) { return {}}
+export default connect(
+  function mapStateToProps(state) {
+    return state;
+  },
+  function mapDispatchToProps(dispatch) {
+    return { dispatch };
+  }
 )(App);
