@@ -4,13 +4,14 @@ import React, {
   useEffect,
 } from 'react';
 import { connect } from 'react-redux';
+import dayjs from 'dayjs';
 import URI from 'urijs';
 
 import Header from '../common/Header';
 import Nav from '../common/Nav';
 import List from './List';
 import Bottom from './Bottom';
-import dayjs from 'dayjs';
+import useNav from '../common/useNav';
 
 import {
   setFrom,
@@ -24,6 +25,9 @@ import {
   setTrainTypes,
   setDepartStations,
   setArriveStations,
+
+  prevDate,
+  nextDate,
 } from './actions.js';
 import { h0 } from '../common/fp';
 
@@ -55,6 +59,9 @@ function App(props: any) {
     const queries = URI.parseQuery(window.location.search);
 
     const { from, to, date, highSpeed }: any = queries;
+    if (!from || !to || !date || !highSpeed) {
+      return;
+    }
 
     dispatch(setFrom(from));
     dispatch(setTo(to));
@@ -112,33 +119,32 @@ function App(props: any) {
         dispatch(setArriveStations(arrStation));
       });
 
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    searchParsed,
-    from,
-    to,
-    departDate,
-    highSpeed,
-    orderType,
-    onlyTickets,
-    checkedTicketTypes,
-    checkedTrainTypes,
-    checkedDepartStations,
-    checkedArriveStations,
-    departTimeStart,
-    departTimeEnd,
-    arriveTimeStart,
-    arriveTimeEnd
-  ]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParsed, from, to, departDate, highSpeed, orderType, onlyTickets, checkedTicketTypes, checkedTrainTypes, checkedDepartStations, checkedArriveStations, departTimeStart, departTimeEnd, arriveTimeStart, arriveTimeEnd]);
+
+  const {
+    prev,
+    next,
+  } = useNav({ departDate, dispatch, prevDate, nextDate });
 
   return (
     <>
-      <div className="header-wrapper">
-        <Header title={`${from} → ${to}`} onBack={onBack} />
-      </div>
-      <Nav />
-      <List />
-      <Bottom />
+      {
+        searchParsed
+          ? (
+            <><div className="header-wrapper">
+              <Header title={`${from} → ${to}`} onBack={onBack} />
+            </div>
+              <Nav
+                date={departDate}
+                prev={prev}
+                next={next}
+              />
+              <List />
+              <Bottom />
+            </>)
+          : null
+      }
     </>
   )
 }
