@@ -16,9 +16,10 @@ export default createStore(
     from: null,
     to: null,
     departDate: h0(Date.now()),
-    hightSpeed: false,
+    highSpeed: false,
     trainList: [],
     orderType: ORDER_DEPART,
+    // 只看有票
     onlyTickets: false,
     ticketTypes: [],
     checkedTicketTypes: {},
@@ -28,10 +29,13 @@ export default createStore(
     checkedDepartStations: {},
     arriveStations: [],
     checkedArriveStations: {},
+    // 出发时间
     departTimeStart: 0,
     departTimeEnd: 24,
+    // 到达时间
     arriveTimeStart: 0,
     arriveTimeEnd: 24,
+    // 综合筛选是否显示
     isFiltersVisible: false,
     searchParsed: false,
   },

@@ -2,10 +2,12 @@ import './App.css';
 import React, {
   useCallback,
   useEffect,
+  useMemo,
 } from 'react';
 import { connect } from 'react-redux';
 import dayjs from 'dayjs';
 import URI from 'urijs';
+import { bindActionCreators } from 'redux';
 
 import Header from '../common/Header';
 import Nav from '../common/Nav';
@@ -28,6 +30,11 @@ import {
 
   prevDate,
   nextDate,
+
+  toggleHightSpeed,
+  toggleOnlyTickets,
+  toggleOrderType,
+  toggleIsFiltersVisible,
 } from './actions.js';
 import { h0 } from '../common/fp';
 
@@ -50,6 +57,7 @@ function App(props: any) {
     arriveTimeStart,
     arriveTimeEnd,
     trainList,
+    isFiltersVisible,
   } = props;
 
   const onBack = useCallback(() => {
@@ -128,6 +136,16 @@ function App(props: any) {
     next,
   } = useNav({ departDate, dispatch, prevDate, nextDate });
 
+  const bottomCbs = useMemo(() => {
+    return bindActionCreators({
+      toggleHightSpeed,
+      toggleOnlyTickets,
+      toggleOrderType,
+      toggleIsFiltersVisible,
+    }, dispatch);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <>
       {
@@ -142,7 +160,13 @@ function App(props: any) {
                 next={next}
               />
               <List list={trainList} />
-              <Bottom />
+              <Bottom
+                highSpeed={highSpeed}
+                orderType={orderType}
+                onlyTickets={onlyTickets}
+                isFiltersVisible={isFiltersVisible}
+                {...bottomCbs}
+              />
             </>)
           : null
       }
