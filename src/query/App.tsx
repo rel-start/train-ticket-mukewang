@@ -35,6 +35,13 @@ import {
   toggleOnlyTickets,
   toggleOrderType,
   toggleIsFiltersVisible,
+
+  setCheckedTicketTypes,
+  setCheckedTrainTypes,
+  setDepartTimeStart,
+  setDepartTimeEnd,
+  setArriveTimeStart,
+  setArriveTimeEnd,
 } from './actions.js';
 import { h0 } from '../common/fp';
 
@@ -58,6 +65,10 @@ function App(props: any) {
     arriveTimeEnd,
     trainList,
     isFiltersVisible,
+    ticketTypes,
+    trainTypes,
+    departStations,
+    arriveStations,
   } = props;
 
   const onBack = useCallback(() => {
@@ -142,6 +153,14 @@ function App(props: any) {
       toggleOnlyTickets,
       toggleOrderType,
       toggleIsFiltersVisible,
+      setTicketTypes,
+      setCheckedTicketTypes,
+      setTrainTypes,
+      setCheckedTrainTypes,
+      setDepartTimeStart,
+      setDepartTimeEnd,
+      setArriveTimeStart,
+      setArriveTimeEnd,
     }, dispatch);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -165,6 +184,19 @@ function App(props: any) {
                 orderType={orderType}
                 onlyTickets={onlyTickets}
                 isFiltersVisible={isFiltersVisible}
+
+                ticketTypes={ticketTypes}
+                checkedTicketTypes={checkedTicketTypes}
+                trainTypes={trainTypes}
+                checkedTrainTypes={checkedTrainTypes}
+                departStations={departStations}
+                checkedDepartStations={checkedDepartStations}
+                arriveStations={arriveStations}
+                checkedArriveStations={checkedArriveStations}
+                departTimeStart={departTimeStart}
+                departTimeEnd={departTimeEnd}
+                arriveTimeStart={arriveTimeStart}
+                arriveTimeEnd={arriveTimeEnd}
                 {...bottomCbs}
               />
             </>)

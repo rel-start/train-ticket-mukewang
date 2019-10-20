@@ -5,7 +5,7 @@ import {
 } from 'redux';
 import reducers from './reducers';
 import thunk from 'redux-thunk';
-import logger from 'redux-thunk';
+import logger from 'redux-logger';
 
 import { h0 } from '../common/fp.js';
 import { ORDER_DEPART } from './constant.js';
