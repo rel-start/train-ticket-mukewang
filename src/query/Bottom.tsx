@@ -3,11 +3,31 @@ import React, {
   memo,
   useState,
   useReducer,
-  useCallback,
+  // useCallback,
+  useMemo,
 } from 'react';
 import classnames from 'classnames';
 
 import { ORDER_DEPART } from './constant.js';
+import Slider from './Slider';
+
+function checkedReducer(state: any, action: any) {
+  const { type, payload } = action;
+  switch (type) {
+    case 'toggle':
+      const newState = { ...state };
+      if (payload in newState) {
+        delete newState[payload];
+      } else {
+        newState[payload] = true;
+      }
+      return newState;
+    case 'reset':
+      return {};
+    default:
+      return state;
+  }
+}
 
 /**
  * 
@@ -16,12 +36,17 @@ const Filter = memo(function Filter(props: IFilterProps) {
   const {
     name,
     checked,
-    toggle,
+    // toggle,
     value,
+    dispatch,
   } = props;
 
   return (
-    <li className={classnames({ checked })} onClick={() => toggle(value)}>
+    <li
+      className={classnames({ checked })}
+      // onClick={() => toggle(value)}
+      onClick={() => dispatch({ payload: value, type: 'toggle' })}
+    >
       {name}
     </li>
   );
@@ -40,20 +65,21 @@ const Option = memo(function Option(props: IOptionProps) {
     title,
     options,
     checkedMap,
-    update,
+    // update,
+    dispatch,
   } = props;
 
-  const toggle = useCallback((value: any) => {
-    const newCheckedMap = { ...checkedMap };
+  // const toggle = useCallback((value: any) => {
+  //   const newCheckedMap = { ...checkedMap };
 
-    if (value in checkedMap) {
-      delete newCheckedMap[value];
-    } else {
-      newCheckedMap[value] = true;
-    }
+  //   if (value in checkedMap) {
+  //     delete newCheckedMap[value];
+  //   } else {
+  //     newCheckedMap[value] = true;
+  //   }
 
-    update(newCheckedMap);
-  }, [update, checkedMap]);
+  //   update(newCheckedMap);
+  // }, [update, checkedMap]);
 
   return (
     <div className="option">
@@ -63,7 +89,8 @@ const Option = memo(function Option(props: IOptionProps) {
           options.map((option: any, idx: number) => {
             return (
               <Filter
-                toggle={toggle}
+                // toggle={toggle}
+                dispatch={dispatch}
                 {...option}
                 key={idx}
                 checked={option.value in checkedMap}
@@ -97,81 +124,156 @@ const BottomModel = memo(function BottomModel(props: IBottomModelProps) {
     departTimeEnd,
     arriveTimeStart,
     arriveTimeEnd,
-    setTicketTypes,
     setCheckedTicketTypes,
-    setTrainTypes,
     setCheckedTrainTypes,
     setDepartTimeStart,
     setDepartTimeEnd,
     setArriveTimeStart,
     setArriveTimeEnd,
     toggleIsFiltersVisible,
+    setCheckedDepartStations,
+    setCheckedArriveStations,
   } = props;
 
+  const [localCheckedTicketTypes, localCheckedTicketTypesDispatch]: any = useReducer(checkedReducer, checkedTicketTypes, (checkedTicketTypes) => ({
+    ...checkedTicketTypes,
+  }));
+  const [localCheckedTrainTypes, localCheckedTrainTypesDispatch]: any = useReducer(checkedReducer, checkedTrainTypes, (checkedTrainTypes) => ({
+    ...checkedTrainTypes,
+  }));
+  const [localCheckedDepartStations, localCheckedDepartStationsDispatch]: any = useReducer(checkedReducer, checkedDepartStations, (checkedDepartStations) => ({
+    ...checkedDepartStations,
+  }));
+  const [localCheckedArriveStations, localCheckedArriveStationsDispatch]: any = useReducer(checkedReducer, checkedArriveStations, (checkedArriveStations) => ({
+    ...checkedArriveStations,
+  }));
   // useState 传入函数的话 只有组件第一次初始化的时候才会被调用。优化!!!
-  const [localCheckedTicketTypes, setLocalCheckedTicketTypes] = useState(() => {
-    return {
-      ...checkedTicketTypes,
-    }
-  });
-  const [localCheckedTrainTypes, setLocalCheckedTrainTypes] = useState(() => {
-    return {
-      ...checkedTrainTypes,
-    }
-  });
-  const [localCheckedDepartStations, setLocalCheckedDepartStations] = useState(() => {
-    return {
-      ...checkedDepartStations,
-    }
-  });
-  const [localCheckedArriveStations, setLocalCheckedArriveStations] = useState(() => {
-    return {
-      ...checkedArriveStations,
-    }
-  });
+  // const [localCheckedTicketTypes, setLocalCheckedTicketTypes] = useState(() => ({
+  //   ...checkedTicketTypes,
+  // }));
+  // const [localCheckedTrainTypes, setLocalCheckedTrainTypes] = useState(() => ({
+  //   ...checkedTrainTypes,
+  // }));
+  // const [localCheckedDepartStations, setLocalCheckedDepartStations] = useState(() => ({
+  //   ...checkedDepartStations,
+  // }));
+  // const [localCheckedArriveStations, setLocalCheckedArriveStations] = useState(() => ({
+  //   ...checkedArriveStations,
+  // }));
+  const [localDepartTimeStart, setLocalDepartTimeStart] = useState(departTimeStart);
+  const [localDepartTimeEnd, setLocalDepartTimeEnd] = useState(departTimeEnd);
+  const [localArriveTimeStart, setLocalArriveTimeStart] = useState(arriveTimeStart);
+  const [localArriveTimeEnd, setLocalArriveTimeEnd] = useState(arriveTimeEnd);
 
   const optionGroup = [
     {
       title: '坐席类型',
       options: ticketTypes,
       checkedMap: localCheckedTicketTypes,
-      update: setLocalCheckedTicketTypes,
+      // update: setLocalCheckedTicketTypes,
+      dispatch: localCheckedTicketTypesDispatch,
     },
     {
       title: '车次类型',
       options: trainTypes,
       checkedMap: localCheckedTrainTypes,
-      update: setLocalCheckedTrainTypes,
+      // update: setLocalCheckedTrainTypes,
+      dispatch: localCheckedTrainTypesDispatch,
     },
     {
       title: '出发车站',
       options: departStations,
       checkedMap: localCheckedDepartStations,
-      update: setLocalCheckedDepartStations,
+      // update: setLocalCheckedDepartStations,
+      dispatch: localCheckedDepartStationsDispatch,
     },
     {
       title: '到达车站',
       options: arriveStations,
       checkedMap: localCheckedArriveStations,
-      update: setLocalCheckedArriveStations,
+      // update: setLocalCheckedArriveStations,
+      dispatch: localCheckedArriveStationsDispatch,
     }
   ];
+
+  function sure() {
+    setCheckedTicketTypes(localCheckedTicketTypes);
+    setCheckedTrainTypes(localCheckedTrainTypes)
+    setCheckedDepartStations(localCheckedDepartStations);
+    setCheckedArriveStations(localCheckedArriveStations);
+
+    setDepartTimeStart(localDepartTimeStart);
+    setDepartTimeEnd(localDepartTimeEnd);
+
+    setArriveTimeStart(localArriveTimeStart);
+    setArriveTimeEnd(localArriveTimeEnd);
+
+    toggleIsFiltersVisible();
+  }
+  const isResetDisabled = useMemo(() => {
+    return Object.keys(localCheckedTicketTypes).length === 0
+      && Object.keys(localCheckedTrainTypes).length === 0
+      && Object.keys(localCheckedDepartStations).length === 0
+      && Object.keys(localCheckedArriveStations).length === 0
+      && localDepartTimeStart === 0
+      && localDepartTimeEnd === 24
+      && localArriveTimeStart === 0
+      && localArriveTimeEnd === 24;
+  }, [
+    localCheckedTicketTypes,
+    localCheckedTrainTypes,
+    localCheckedDepartStations,
+    localCheckedArriveStations,
+    localDepartTimeStart,
+    localDepartTimeEnd,
+    localArriveTimeStart,
+    localArriveTimeEnd
+  ]);
+
+  function reset() {
+    if (isResetDisabled) { return; }
+    localCheckedTicketTypesDispatch({ type: 'reset' });
+    localCheckedTrainTypesDispatch({ type: 'reset' })
+    localCheckedDepartStationsDispatch({ type: 'reset' });
+    localCheckedArriveStationsDispatch({ type: 'reset' });
+
+    setLocalDepartTimeStart(0);
+    setLocalDepartTimeEnd(24);
+
+    setLocalArriveTimeStart(0);
+    setLocalArriveTimeEnd(24);
+  }
+
+
 
   return (
     <div className="bottom-modal">
       <div className="bottom-dialog">
         <div className="bottom-dialog-content">
           <div className="title">
-            <span className="reset">重置</span>
-            <span className="ok">确定</span>
+            <span className={classnames('reset', { disabled: isResetDisabled })} onClick={reset}>重置</span>
+            <span className="ok" onClick={sure}>确定</span>
           </div>
           <div className="options">
             {
               optionGroup.map((group, idx) => <Option {...group} key={idx} />)
             }
           </div>
+          <Slider
+            title="出发时间"
+            currentStartHours={localDepartTimeStart}
+            currentEndHours={localDepartTimeEnd}
+            onStartChanged={setLocalDepartTimeStart}
+            onEndChanged={setLocalDepartTimeEnd}
+          />
+          <Slider
+            title="到达时间"
+            currentStartHours={localArriveTimeStart}
+            currentEndHours={localArriveTimeEnd}
+            onStartChanged={setLocalArriveTimeStart}
+            onEndChanged={setLocalArriveTimeEnd}
+          />
         </div>
-
       </div>
     </div>
   );
@@ -215,7 +317,29 @@ export default function Bottom(props: IBottomProps) {
     setDepartTimeEnd,
     setArriveTimeStart,
     setArriveTimeEnd,
+    setCheckedDepartStations,
+    setCheckedArriveStations,
   } = props;
+
+  const noChecked = useMemo(() => {
+    return Object.keys(checkedTicketTypes).length === 0
+      && Object.keys(checkedTrainTypes).length === 0
+      && Object.keys(checkedDepartStations).length === 0
+      && Object.keys(checkedArriveStations).length === 0
+      && departTimeStart === 0
+      && departTimeEnd === 24
+      && arriveTimeStart === 0
+      && arriveTimeEnd === 24;
+  }, [
+    checkedTicketTypes,
+    checkedTrainTypes,
+    checkedDepartStations,
+    checkedArriveStations,
+    departTimeStart,
+    departTimeEnd,
+    arriveTimeStart,
+    arriveTimeEnd
+  ]);
 
   return (
     <div className="bottom">
@@ -242,10 +366,10 @@ export default function Bottom(props: IBottomProps) {
           只看有票
         </span>
         <span
-          className={classnames('item', { 'item-on': isFiltersVisible })}
+          className={classnames('item', { 'item-on': isFiltersVisible || !noChecked })}
           onClick={toggleIsFiltersVisible}
         >
-          <i className="icon">{'\uf0f7'}</i>
+          <i className="icon">{noChecked ? '\uf0f7' : '\uf446'}</i>
           综合筛选
         </span>
       </div>
@@ -273,6 +397,8 @@ export default function Bottom(props: IBottomProps) {
             setArriveTimeStart={setArriveTimeStart}
             setArriveTimeEnd={setArriveTimeEnd}
             toggleIsFiltersVisible={toggleIsFiltersVisible}
+            setCheckedDepartStations={setCheckedDepartStations}
+            setCheckedArriveStations={setCheckedArriveStations}
           />
         )
       }

@@ -42,6 +42,8 @@ import {
   setDepartTimeEnd,
   setArriveTimeStart,
   setArriveTimeEnd,
+  setCheckedDepartStations,
+  setCheckedArriveStations,
 } from './actions.js';
 import { h0 } from '../common/fp';
 
@@ -197,6 +199,8 @@ function App(props: any) {
                 departTimeEnd={departTimeEnd}
                 arriveTimeStart={arriveTimeStart}
                 arriveTimeEnd={arriveTimeEnd}
+                setCheckedDepartStations={setCheckedDepartStations}
+                setCheckedArriveStations={setCheckedArriveStations}
                 {...bottomCbs}
               />
             </>)
