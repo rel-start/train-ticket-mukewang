@@ -164,5 +164,9 @@ export default memo(function Slider(props: ISliderProps) {
 });
 
 interface ISliderProps {
-  [propsName: string]: any
+  title: string,
+  currentStartHours: number,
+  currentEndHours: number,
+  onStartChanged: Function,
+  onEndChanged: Function,
 }

@@ -65,7 +65,15 @@ const ListItem = memo(function ListItem(props: IListItemProps) {
 });
 
 interface IListItemProps {
-  [propsName: string]: any
+  dTime: string,
+  aTime: string,
+  dStation: string,
+  aStation: string,
+  trainNumber: string,
+  date: string,
+  time: Date,
+  priceMsg: string,
+  dayAfter: string,
 }
 
 /**
@@ -75,6 +83,7 @@ export default memo(function List(props: IListProps) {
   const {
     list,
   } = props;
+  console.log(list)
 
   return (
     <ul className="list">
@@ -90,5 +99,5 @@ export default memo(function List(props: IListProps) {
 });
 
 interface IListProps {
-  [propsName: string]: any
+  list: object[],
 }

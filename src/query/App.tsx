@@ -147,6 +147,8 @@ function App(props: any) {
   const {
     prev,
     next,
+    isPrevDisabled,
+    isNextDisabled,
   } = useNav({ departDate, dispatch, prevDate, nextDate });
 
   const bottomCbs = useMemo(() => {
@@ -179,6 +181,8 @@ function App(props: any) {
                 date={departDate}
                 prev={prev}
                 next={next}
+                isPrevDisabled={isPrevDisabled}
+                isNextDisabled={isNextDisabled}
               />
               <List list={trainList} />
               <Bottom

@@ -29,5 +29,8 @@ export default function useNav(props: IuseNavProps) {
 }
 
 interface IuseNavProps {
-  [propsName: string]: any
+  departDate: number, 
+  dispatch: Function, 
+  prevDate: Function, 
+  nextDate: Function,
 }

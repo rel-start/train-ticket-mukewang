@@ -2,6 +2,7 @@ import './Nav.css';
 import React, {
   useMemo,
   memo,
+  MouseEventHandler,
 } from 'react';
 import classnames from 'classnames';
 import dayjs from 'dayjs';
@@ -25,14 +26,14 @@ export default memo(function Nav(props: INavProps) {
     <div className="nav">
       <span
         onClick={prev}
-        className={classnames('nav-prev', {'nav-disabled': isPrevDisabled})}
+        className={classnames('nav-prev', { 'nav-disabled': isPrevDisabled })}
       >
         前一天
       </span>
       <span className="nav-current">{currentString}</span>
       <span
         onClick={next}
-        className={classnames('nav-next', {'nav-disabled': isNextDisabled})}
+        className={classnames('nav-next', { 'nav-disabled': isNextDisabled })}
       >
         后一天
       </span>
@@ -41,5 +42,9 @@ export default memo(function Nav(props: INavProps) {
 });
 
 interface INavProps {
-  [propsName: string]: any
+  date: Date,
+  prev: MouseEventHandler,
+  next: MouseEventHandler,
+  isPrevDisabled: boolean,
+  isNextDisabled: boolean,
 }

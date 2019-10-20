@@ -5,6 +5,7 @@ import React, {
   useReducer,
   // useCallback,
   useMemo,
+  MouseEventHandler,
 } from 'react';
 import classnames from 'classnames';
 
@@ -40,6 +41,7 @@ const Filter = memo(function Filter(props: IFilterProps) {
     value,
     dispatch,
   } = props;
+  console.log(value)
 
   return (
     <li
@@ -53,7 +55,10 @@ const Filter = memo(function Filter(props: IFilterProps) {
 });
 
 interface IFilterProps {
-  [propsName: string]: any
+  name: string,
+  checked: boolean,
+  value: string,
+  dispatch: Function,
 }
 
 
@@ -86,7 +91,7 @@ const Option = memo(function Option(props: IOptionProps) {
       <h3>{title}</h3>
       <ul>
         {
-          options.map((option: any, idx: number) => {
+          options.map((option, idx) => {
             return (
               <Filter
                 // toggle={toggle}
@@ -104,7 +109,10 @@ const Option = memo(function Option(props: IOptionProps) {
 });
 
 interface IOptionProps {
-  [propsName: string]: any
+  title: string,
+  options: IasTicketTypes,
+  checkedMap: IasCheckedTicketTypes,
+  dispatch: Function,
 }
 
 /**
@@ -280,7 +288,30 @@ const BottomModel = memo(function BottomModel(props: IBottomModelProps) {
 });
 
 interface IBottomModelProps {
-  [propsName: string]: any
+  ticketTypes: IasTicketTypes,
+  checkedTicketTypes: IasCheckedTicketTypes,
+  trainTypes: IasTicketTypes,
+  checkedTrainTypes: IasCheckedTicketTypes,
+  departStations: IasTicketTypes,
+  checkedDepartStations: IasCheckedTicketTypes,
+  arriveStations: IasTicketTypes,
+  checkedArriveStations: IasCheckedTicketTypes,
+  departTimeStart: number,
+  departTimeEnd: number,
+  arriveTimeStart: number,
+  arriveTimeEnd: number,
+  setTicketTypes: Function,
+  setCheckedTicketTypes: Function,
+  setTrainTypes: Function,
+  setCheckedTrainTypes: Function,
+  setDepartTimeStart: Function,
+  setDepartTimeEnd: Function,
+  setArriveTimeStart: Function,
+  setArriveTimeEnd: Function,
+  setCheckedDepartStations: Function,
+  setCheckedArriveStations: Function,
+
+  toggleIsFiltersVisible: Function,
 }
 
 /**
@@ -407,5 +438,48 @@ export default function Bottom(props: IBottomProps) {
 }
 
 interface IBottomProps {
-  [propsName: string]: any
+  highSpeed: boolean,
+  orderType: number,
+  onlyTickets: boolean,
+  isFiltersVisible: boolean,
+  toggleHightSpeed: MouseEventHandler,
+  toggleOnlyTickets: MouseEventHandler,
+  toggleOrderType: MouseEventHandler,
+  toggleIsFiltersVisible: MouseEventHandler,
+
+  ticketTypes: IasTicketTypes,
+  checkedTicketTypes: IasCheckedTicketTypes,
+  trainTypes: IasTicketTypes,
+  checkedTrainTypes: IasCheckedTicketTypes,
+  departStations: IasTicketTypes,
+  checkedDepartStations: IasCheckedTicketTypes,
+  arriveStations: IasTicketTypes,
+  checkedArriveStations: IasCheckedTicketTypes,
+  departTimeStart: number,
+  departTimeEnd: number,
+  arriveTimeStart: number,
+  arriveTimeEnd: number,
+  setTicketTypes: Function,
+  setCheckedTicketTypes: Function,
+  setTrainTypes: Function,
+  setCheckedTrainTypes: Function,
+  setDepartTimeStart: Function,
+  setDepartTimeEnd: Function,
+  setArriveTimeStart: Function,
+  setArriveTimeEnd: Function,
+  setCheckedDepartStations: Function,
+  setCheckedArriveStations: Function,
+}
+
+interface IasTicketTypes extends Array<any> {
+  [sequence: number]: IasTicketTypesValue,
+}
+
+interface IasTicketTypesValue {
+  value: string,
+  name: string,
+}
+
+interface IasCheckedTicketTypes {
+  string: boolean,
 }
