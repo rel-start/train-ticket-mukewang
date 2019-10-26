@@ -15,6 +15,7 @@ export default function useNav(props: IuseNavProps) {
   }, [isPrevDisabled]);
 
   const next = useCallback(() => {
+    console.log(111)
     if (isNextDisabled) { return; }
     dispatch(nextDate());
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -120,6 +120,7 @@ function App(props: any) {
     fetch(url)
       .then(res => res.json())
       .then(result => {
+        console.log(result)
         const {
           dataMap: {
             directTrainInfo: {

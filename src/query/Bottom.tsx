@@ -41,7 +41,8 @@ const Filter = memo(function Filter(props: IFilterProps) {
     value,
     dispatch,
   } = props;
-  console.log(value)
+
+
 
   return (
     <li
@@ -142,6 +143,9 @@ const BottomModel = memo(function BottomModel(props: IBottomModelProps) {
     setCheckedDepartStations,
     setCheckedArriveStations,
   } = props;
+
+
+  console.log('🍎', ticketTypes)
 
   const [localCheckedTicketTypes, localCheckedTicketTypesDispatch]: any = useReducer(checkedReducer, checkedTicketTypes, (checkedTicketTypes) => ({
     ...checkedTicketTypes,

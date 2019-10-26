@@ -83,7 +83,7 @@ export default memo(function List(props: IListProps) {
   const {
     list,
   } = props;
-  console.log(list)
+
 
   return (
     <ul className="list">

@@ -9,10 +9,18 @@ import thunk from 'redux-thunk';
 
 export default createStore(
   combineReducers(reducers),
-  // state的默认值
   {
-
+    departDate: Date.now(),
+    arriveDate: Date.now(),
+    departTimeStr: null,
+    arriveTimeStr: null,
+    trainNumber: null,
+    departStation: null,
+    arriveStation: null,
+    durationStr: null,
+    tickets: [],
+    isScheduleVisible: false,
+    searchParsed: false,
   },
-  // 中间件
   applyMiddleware(thunk)
 );
