@@ -25,6 +25,7 @@ export default memo(function Detail(props: IDetailProps) {
     arriveStation,
     trainNumber,
     toggleIsScheduleVisible,
+    children,
   } = props;
 
 
@@ -42,9 +43,7 @@ export default memo(function Detail(props: IDetailProps) {
         <div className="middle">
           <p className="train-num">{trainNumber}</p>
           <p className="train-mid" onClick={toggleIsScheduleVisible}>
-            <span className="left"></span>
-            <span className="schedule">时刻表</span>
-            <span className="right"></span>
+            {children}
           </p>
           <p className="train-time">耗时{durationStr}</p>
         </div>
@@ -67,5 +66,6 @@ interface IDetailProps {
   departStation: string,
   arriveStation: string,
   trainNumber: string,
-  toggleIsScheduleVisible: MouseEventHandler,
+  toggleIsScheduleVisible?: MouseEventHandler,
+  children?: any,
 }

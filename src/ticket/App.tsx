@@ -142,7 +142,11 @@ function App(props: any) {
         arriveStation={arriveStation}
         trainNumber={trainNumber}
         {...detailCbs}
-      />
+      >
+        <span className="left"></span>
+        <span className="schedule">时刻表</span>
+        <span className="right"></span>
+      </Detail>
       {
         isScheduleVisible && (
           <div onClick={() => dispatch(toggleIsScheduleVisible())} className="mask">

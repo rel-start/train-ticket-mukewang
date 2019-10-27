@@ -1,13 +1,14 @@
 .header-wrapper {
+  z-index: 2;
   position: fixed;
   top: 0;
-  left: 0;
   right: 0;
-  z-index: 2;
+  left: 0;
 }
+
 .nav-wrapper {
   position: fixed;
   top: 44px;
-  left: 0;
   right: 0;
+  left: 0;
 }
